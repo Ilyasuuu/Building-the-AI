@@ -1,0 +1,18 @@
+# Virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Data (to avoid committing large files)
+data/raw/
+data/processed/
+
+# Models (to avoid committing large files)
+models/
+
+# Environment variables
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
