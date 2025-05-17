@@ -8,7 +8,6 @@ A production-ready chatbot that detects phishing attempts in real-time by analyz
 - Generates user-friendly explanations and recommendations via Grok 3 or Claude 3.7.
 - Optimized for low latency and high accuracy.
 - Containerized with Docker and deployed on AWS with GitHub Actions.
-- GDPR-compliant data handling for user privacy.
 
 ## Tech Stack
 - **ML/NLP**: Python, Scikit-learn, PyTorch, Pandas, NumPy, NLTK
