@@ -8,7 +8,7 @@ app = FastAPI(title="Phishing Detection Chatbot API")
 origins = [
     "http://localhost", # For local Streamlit testing
     "http://localhost:8501", # For local Streamlit testing
-    "https://imfxqh6ysv.eu-central-1.awsapprunner.com" # Replace with actual frontend URL once known
+    "https://imfxqh6ysv.eu-central-1.awsapprunner.com/" # Replace with actual frontend URL once known
     # Add any other origins you need to allow
 ]
 

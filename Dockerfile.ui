@@ -32,4 +32,4 @@ EXPOSE 8501
 #    --server.port ensures it runs on the exposed port.
 #    --server.address=0.0.0.0 makes it accessible from outside the container.
 #    --server.enableCORS=false can sometimes be useful if you have CORS issues, but start without it.
-CMD ["streamlit", "run", "app_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/app_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
