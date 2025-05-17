@@ -8,7 +8,7 @@ data/raw/
 data/processed/
 
 # Models (to avoid committing large files)
-models/
+#models/
 
 # Environment variables
 .env

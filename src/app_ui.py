@@ -7,7 +7,7 @@ import os
 # Get the FastAPI backend URL from an environment variable
 # Default to localhost:8000 if the environment variable is not set (for local direct running)
 # Docker Compose will set FASTAPI_BACKEND_URL to http://backend:8000
-FASTAPI_SERVICE_URL = os.getenv("FASTAPI_BACKEND_URL", "http://127.0.0.1:8000")
+FASTAPI_SERVICE_URL = "https://3es3jnmruh.eu-central-1.awsapprunner.com/" 
 FASTAPI_URL = f"{FASTAPI_SERVICE_URL}/check-email/"
 
 print(f"Streamlit UI will connect to FastAPI at: {FASTAPI_URL}") # For debugging

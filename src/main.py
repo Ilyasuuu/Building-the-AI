@@ -1,5 +1,25 @@
 # phishing-chatbot/src/main.py
+from fastapi.middleware.cors import CORSMiddleware # Add this import
 
+app = FastAPI(title="Phishing Detection Chatbot API")
+
+# Add CORS middleware
+# You should restrict origins to only your Streamlit app's domain in production
+origins = [
+    "http://localhost", # For local Streamlit testing
+    "http://localhost:8501", # For local Streamlit testing
+    "https://YOUR_STREAMLIT_FRONTEND_APPRUNNER_URL.awsapprunner.com" # Replace with actual frontend URL once known
+    # Add any other origins you need to allow
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, # Allows specific origins
+    # allow_origins=["*"], # Allows all origins (less secure, okay for initial testing)
+    allow_credentials=True,
+    allow_methods=["*"], # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"], # Allows all headers
+)
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel # For defining request/response models
 import joblib
