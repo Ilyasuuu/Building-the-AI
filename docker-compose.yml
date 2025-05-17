@@ -1,41 +1,34 @@
-# phishing-chatbot/docker-compose.yml
-version: '3.8' # Specifies the Docker Compose file format version
+# docker-compose.yml
+
+version: '3.8'
 
 services:
-  backend: # Name of your FastAPI backend service
-    build:
-      context: . # Build context is the current directory (project root)
-      dockerfile: Dockerfile # Specifies to use your main Dockerfile for the backend
-    container_name: phishing_backend_container
-    ports:
-      - "8000:8000" # Map host port 8000 to container port 8000 for the backend
-    environment:
-      # Pass the OpenAI API key as an environment variable to the backend container
-      # Docker Compose will look for a .env file in the same directory as docker-compose.yml
-      # by default and load variables from it.
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      # Optional: Mount src code for live reload during development if Uvicorn --reload is used
-      # - ./src:/app/src 
-    networks:
-      - phishing_network # Connect to a custom network
-
-  frontend: # Name of your Streamlit frontend service
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile.ui # Specifies to use Dockerfile.ui for the frontend
+      dockerfile: Dockerfile
+    container_name: phishing_backend_container
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - phishing_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
     container_name: phishing_frontend_container
     ports:
-      - "8501:8501" # Map host port 8501 to container port 8501 for Streamlit
+      - "8501:8501"
     environment:
-      # The Streamlit app needs to know the URL of the backend
-      # We use the service name 'backend' as Docker Compose provides DNS resolution
-      # between services on the same custom network.
-      - FASTAPI_BACKEND_URL=http://backend:8000 
+      - FASTAPI_BACKEND_URL=http://backend:8000
     depends_on:
-      - backend # Ensures backend starts before frontend attempts to connect
+      - backend
     networks:
-      - phishing_network # Connect to the same custom network
+      - phishing_network
 
 networks:
-  phishing_network: # Define the custom network
+  phishing_network:
     driver: bridge

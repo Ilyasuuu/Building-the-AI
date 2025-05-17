@@ -46,7 +46,7 @@ jobs:
   build-and-push-frontend:
     name: Build and Push Frontend Image
     runs-on: ubuntu-latest
-    needs: build-and-push-backend # Optional: run after backend, or can run in parallel
+    needs: build-and-push-backend 
 
     steps:
       - name: Checkout code
