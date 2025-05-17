@@ -5,7 +5,7 @@ A production-ready chatbot that detects phishing attempts in real-time by analyz
 
 ## Features
 - Classifies text as phishing or legitimate using supervised ML models.
-- Generates user-friendly explanations and recommendations via Grok 3 or Claude 3.7.
+- Generates user-friendly explanations and recommendations via gpt-4o
 - Optimized for low latency and high accuracy.
 - Containerized with Docker and deployed on AWS with GitHub Actions.
 
