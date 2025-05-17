@@ -1,0 +1,35 @@
+# phishing-chatbot/Dockerfile.ui
+
+# 1. Use an official Python runtime as a parent image
+FROM python:3.12-slim
+
+# 2. Set the working directory in the container
+WORKDIR /app
+
+# 3. Create a virtual environment (optional but good practice for consistency)
+ENV VIRTUAL_ENV=/app/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# 4. Copy the UI-specific requirements file
+COPY requirements_ui.txt . 
+# If using the main requirements.txt, change to: COPY requirements.txt .
+
+# 5. Install dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements_ui.txt
+    # If using main requirements.txt: RUN pip install --no-cache-dir -r requirements.txt
+
+# 6. Copy your Streamlit application code (assuming app_ui.py is in src/)
+COPY src/app_ui.py .
+# If you have other UI-specific assets in src/ (e.g., images, custom css), copy them too.
+# Example: COPY src/assets ./assets
+
+# 7. Make port 8501 (default Streamlit port) available
+EXPOSE 8501
+
+# 8. Define the command to run your Streamlit app
+#    --server.port ensures it runs on the exposed port.
+#    --server.address=0.0.0.0 makes it accessible from outside the container.
+#    --server.enableCORS=false can sometimes be useful if you have CORS issues, but start without it.
+CMD ["streamlit", "run", "app_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]

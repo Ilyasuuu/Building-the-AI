@@ -1,13 +1,63 @@
+# Core Application Frameworks
 fastapi==0.115.0
-uvicorn==0.30.6
+uvicorn[standard]==0.30.6
+streamlit==1.45.1
+
+# Machine Learning & Data Handling
 scikit-learn==1.5.2
-torch==2.4.1
+joblib==1.5.0
 pandas==2.2.2
 numpy==1.26.4
 nltk==3.9.1
-spacy==3.7.6
-requests==2.32.3
+
+# API Interaction & Environment
+openai==1.78.1
 python-dotenv==1.0.1
-pytest==8.3.3
-docker==7.1.0
-boto3==1.35.24
+requests==2.32.3
+
+# Key Dependencies (often pulled in automatically, but good to be aware of)
+# For FastAPI & Pydantic
+pydantic==2.11.4 
+# pydantic_core is a direct dep of pydantic, usually no need to list
+starlette==0.38.6 
+# typing_extensions is a dep of pydantic/starlette
+
+# For Requests & OpenAI (HTTPX is used by OpenAI client)
+httpx>=0.24.1 # openai client dependency, allow some flexibility
+certifi>=2021.10.8 # General SSL certs
+charset-normalizer>=2.0.0 # requests dep
+idna>=2.8 # requests dep
+urllib3>=1.26.0 # requests dep
+sniffio>=1.1.0 # httpx dep
+tenacity>=8.0.1 # openai dep
+
+# For Streamlit (some common ones, others will be pulled)
+altair>=5.0.0 # Often used with Streamlit for charts, even if you don't use it directly yet
+blinker>=1.6.2
+cachetools>=4.0 # Streamlit uses for caching
+click>=7.0 # Typer (FastAPI) and Streamlit dep
+# Jinja2 and MarkupSafe for templating (might be pulled by FastAPI/Streamlit)
+Jinja2>=3.0
+MarkupSafe>=2.0
+markdown-it-py>=2.2.0 # Streamlit for markdown
+Pygments>=2.11.0 # For code highlighting in markdown
+pillow>=9.0.0 # For image handling in Streamlit
+protobuf>=3.20 # Streamlit dep
+pyarrow>=10.0.0 # Streamlit can use for dataframes
+python-dateutil>=2.8.0 # Pandas dep
+pytz # Pandas dep
+rich>=10.0.0 # Streamlit/Typer dep
+toml>=0.10.0 # Streamlit for config
+tornado>=6.1 # Streamlit dep
+typer[all]==0.15.3 # FastAPI can use Typer for CLI, [all] includes rich etc.
+
+# For NLTK (sometimes regex is used)
+regex>=2022.1.18
+
+# For Scikit-learn/Numpy
+scipy>=1.7.3 # scikit-learn dep
+threadpoolctl>=2.0.0 # scikit-learn/numpy dep
+
+# For Uvicorn --reload functionality
+watchfiles>=0.13 # if using --reload
+# websockets and httptools are covered by uvicorn[standard]

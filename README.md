@@ -12,7 +12,7 @@ A production-ready chatbot that detects phishing attempts in real-time by analyz
 
 ## Tech Stack
 - **ML/NLP**: Python, Scikit-learn, PyTorch, Pandas, NumPy, NLTK
-- **LLM**: Grok 3 (xAI API) or Claude 3.7 (Anthropic API)
+- **LLM**: Open AI, 4o
 - **Backend**: FastAPI
 - **Deployment**: Docker, AWS ECS/Lambda, GitHub Actions
 - **Version Control**: Git/GitHub

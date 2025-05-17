@@ -1,0 +1,73 @@
+name: CI - Build and Push Docker Images to ECR
+
+on:
+  push:
+    branches:
+      - main # Or your default branch, like 'master'
+  # You can also add pull_request triggers, workflow_dispatch for manual runs, etc.
+
+env:
+  # These will use the GitHub Secrets you configured
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+  ECR_REPOSITORY_BACKEND: ${{ secrets.ECR_REPOSITORY_BACKEND }}
+  ECR_REPOSITORY_FRONTEND: ${{ secrets.ECR_REPOSITORY_FRONTEND }}
+  IMAGE_TAG: ${{ github.sha }} # Tag images with the Git commit SHA for uniqueness
+
+jobs:
+  build-and-push-backend:
+    name: Build and Push Backend Image
+    runs-on: ubuntu-latest # Use a Linux runner
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push backend image to Amazon ECR
+        env:
+          IMAGE_NAME: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_BACKEND }}
+        run: |
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest # Optionally tag as latest
+          docker push $IMAGE_NAME:latest
+
+  build-and-push-frontend:
+    name: Build and Push Frontend Image
+    runs-on: ubuntu-latest
+    needs: build-and-push-backend # Optional: run after backend, or can run in parallel
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push frontend image to Amazon ECR
+        env:
+          IMAGE_NAME: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY_FRONTEND }}
+        run: |
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -f Dockerfile.ui .
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest # Optionally tag as latest
+          docker push $IMAGE_NAME:latest
